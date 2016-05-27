@@ -39,9 +39,8 @@ class ConfLoader(object):
     def validate_yml(self, yml, plugin_type):
         pass
 
-    def _load_file(self):
+    def _load_file(self, file_path='.notify.yml'):
         yml_file = {}
-        file_path = '.notify.yml'
         if os.path.isfile(file_path):
             with open(file_path, 'r') as stream:
                 try:
