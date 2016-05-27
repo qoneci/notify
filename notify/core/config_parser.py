@@ -4,9 +4,6 @@ from yaml import YAMLError
 from notify.core.log import logger
 
 
-SLACK_MANDANTORY_KEYS = []
-
-
 class ConfLoader(object):
     def __init__(self):
         self.log = logger()
