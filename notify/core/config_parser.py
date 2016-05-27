@@ -15,18 +15,29 @@ class ConfLoader(object):
         mandatory_keys = mandatory_keys
         missing_keys = [x for x in mandatory_keys if x not in yml]
         if missing_keys:
-            self.log.error('ConfLoader.validate_yml error: missing keys in yml: {}', missing_keys)
+            self.log.error(
+                'ConfLoader.validate_yml error: missing keys in yml: {}',
+                missing_keys
+            )
             return False
         else:
             self.log.info('ConfLoader.validate_yml Ok!')
             return True
 
     def _validate_slack(self, yml):
-        level1_keys = ''
+        slack_conf = yml.get('slack')
+        if slack_conf:
+            return self._validate(yml, mandatory_keys=['name', 'token'])
 
-    def _validate_hipchat(self, yml): pass
+    def _validate_hipchat(self, yml):
+        hipchat_conf = yml.get('hipchat')
+        if hipchat_conf:
+            return self._validate(yml, mandatory_keys=['name', 'token'])
 
-    def _validate_datadog(self, yml): pass
+    def _validate_datadog(self, yml):
+        datadog_confg = yml.get('datadog')
+        if datadog_confg:
+            return self._validate(yml, mandatory_keys=['name', 'token'])
 
     def validate_yml(self, yml, plugin_type):
         pass
@@ -48,12 +59,12 @@ class ConfLoader(object):
             return yml_file
 
     def get_config(self, plugin_type):
-        config_yml = self.load_file()
+        config_yml = self._load_file()
         if config_yml:
             validate = self.validate_yml()
             if validate:
-                self.log.info('ConfLoader.get_config: build_yml: {}', build_yml)
-                return build_yml
+                self.log.info('ConfLoader.get_config: config_yml: {}', config_yml)
+                return config_yml
         else:
             self.log.error('ConfLoader.get_config: validate_yml failed')
-            return build_yml
+            return config_yml
