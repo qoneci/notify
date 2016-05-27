@@ -1,0 +1,4 @@
+Logbook==0.12.5
+PyYAML==3.11
+requests==2.8.1
+falcon==0.3.0
