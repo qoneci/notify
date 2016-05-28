@@ -10,7 +10,11 @@ class ConfLoader(object):
 
     def _validate(self, yml, mandatory_keys=list):
         mandatory_keys = mandatory_keys
-        missing_keys = [x for x in mandatory_keys if x not in yml.get('orgs')[0]]
+        missing_keys = []
+        orgs = yml.get('orgs')
+        for i in orgs:
+            missing_keys + [x for x in mandatory_keys if x not in i]
+
         if missing_keys:
             self.log.error(
                 'ConfLoader.validate_yml error: missing keys in yml: {}',
