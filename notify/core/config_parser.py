@@ -10,11 +10,13 @@ class Config(object):
         self.conf = conf
 
     def get_service(self, service, org_name):
-        service_conf = [x for x in self.conf[service]['orgs'] if x.get('name') == org_name]
-        if service_conf:
+        service_conf = {}
+        try:
+            service_conf = [x for x in self.conf[service]['orgs'] if x.get('name') == org_name]
+        except KeyError:
+            pass
+        finally:
             return service_conf
-        else:
-            return {}
 
 
 class ConfLoader(object):
