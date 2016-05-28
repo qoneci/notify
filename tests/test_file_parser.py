@@ -33,6 +33,11 @@ class TestConfig(unittest.TestCase):
         check = self.loader._validate_datadog(yml)
         self.assertTrue(check)
 
+    def test_validate_datadog_invalid(self):
+        yml = {'datadog': {'orgs': [{'name': '', 'token': ''}, {'test': 'foo'}]}}
+        check = self.loader._validate_datadog(yml)
+        self.assertFalse(check)
+
     def test_slack_config(self):
         conf = self.loader.get_config('slack', file_path=self.file_path)
         self.assertIn('token', conf['slack']['orgs'][0].keys())
