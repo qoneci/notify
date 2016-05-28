@@ -1,5 +1,6 @@
 import yaml
 import os.path
+import cerberus
 from yaml import YAMLError
 from notify.core.log import logger
 
@@ -8,42 +9,37 @@ class ConfLoader(object):
     def __init__(self):
         self.log = logger()
 
-    def _validate(self, yml, mandatory_keys=list):
-        mandatory_keys = mandatory_keys
-        missing_keys = []
-        orgs = yml.get('orgs')
-        for i in orgs:
-            missing_keys + [x for x in mandatory_keys if x not in i]
-
-        if missing_keys:
-            self.log.error(
-                'ConfLoader.validate_yml error: missing keys in yml: {}',
-                missing_keys
-            )
-            print(missing_keys)
-            return False
-        else:
-            self.log.info('ConfLoader.validate_yml Ok!')
-            return True
+    def _validate(self, yml):
+        schema = {
+            'orgs': {
+                'type': 'list', 'schema': {
+                    'type': 'dict', 'schema': {
+                        'name': {'type': 'string'},
+                        'token': {'type': 'string'}
+                    }
+                }
+            }
+        }
+        return cerberus.Validator(schema).validate(yml)
 
     def _validate_slack(self, yml):
         slack_conf = yml.get('slack')
         if slack_conf:
-            return self._validate(yml['slack'], mandatory_keys=['name', 'token'])
+            return self._validate(slack_conf)
         else:
             return False
 
     def _validate_hipchat(self, yml):
         hipchat_conf = yml.get('hipchat')
         if hipchat_conf:
-            return self._validate(yml['hipchat'], mandatory_keys=['name', 'token'])
+            return self._validate(hipchat_conf)
         else:
             return False
 
     def _validate_datadog(self, yml):
-        datadog_confg = yml.get('datadog')
-        if datadog_confg:
-            return self._validate(yml['datadog'], mandatory_keys=['name', 'token'])
+        datadog_conf = yml.get('datadog')
+        if datadog_conf:
+            return self._validate(datadog_conf)
         else:
             return False
 
