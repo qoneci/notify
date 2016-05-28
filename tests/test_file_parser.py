@@ -28,6 +28,14 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(conf[0].get('name'), 'foo')
         self.assertEqual(conf[0].get('token'), 'bar')
 
+    def test_get_service_none_existing_service(self):
+        conf = self.config.get_service('foobar', 'foo')
+        self.assertTrue(len(conf) == 0)
+
+    def test_get_service_none_existing_name(self):
+        conf = self.config.get_service('datadog', 'abc')
+        self.assertTrue(len(conf) == 0)
+
 
 class TestConfLoader(unittest.TestCase):
     @classmethod
