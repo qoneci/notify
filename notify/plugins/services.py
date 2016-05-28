@@ -56,7 +56,7 @@ class Slack(object):
             channel=channel_id,
             text=message,
             username='notify bot',
-            icon_emoji=':see_no_evil:'
+            icon_url='https://avatars1.githubusercontent.com/u/19374687?v=3&s=48'
         )
         return sent
 
