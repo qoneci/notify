@@ -1,0 +1,14 @@
+slack:
+  orgs:
+    - name: foo
+      token: bar
+
+hipchat:
+  orgs:
+    - name: foo
+      token: bar
+
+datadog:
+  orgs:
+    - name: foo
+      token: bar
