@@ -5,6 +5,33 @@ from notify.core import config_parser
 class TestConfig(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.conf = {
+            'datadog': {'orgs': [{'name': 'foo', 'token': 'bar'}]},
+            'hipchat': {'orgs': [{'name': 'foo', 'token': 'bar'}]},
+            'slack': {'orgs': [{'name': 'foo', 'token': 'bar'}]}
+            }
+        cls.config = config_parser.Config(cls.conf)
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_get_service(self):
+        conf = self.config.get_service('datadog', 'foo')
+        self.assertTrue(len(conf) == 1)
+        self.assertEqual(conf[0].get('name'), 'foo')
+        self.assertEqual(conf[0].get('token'), 'bar')
+
+
+class TestConfLoader(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
         cls.loader = config_parser.ConfLoader()
         cls.file_path = 'tests/test_notify.yml'
 
