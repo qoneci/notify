@@ -5,6 +5,18 @@ from yaml import YAMLError
 from notify.core.log import logger
 
 
+class Config(object):
+    def __init__(self, conf):
+        self.conf = conf
+
+    def get_service(self, service, org_name):
+        service_conf = [x for x in self.conf[service]['orgs'] if x.get('name') == org_name]
+        if service_conf:
+            return service_conf
+        else:
+            return {}
+
+
 class ConfLoader(object):
     def __init__(self):
         self.log = logger()
