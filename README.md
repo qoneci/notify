@@ -25,9 +25,9 @@ datadog:
 
 
 # running api in wsgi container
-'''bash
+```bash
 $ gunicorn notify.app:api
-'''
+```
 
 
 # API
