@@ -6,7 +6,7 @@ currently supported services is Slack, HipChat, DataDog
 
 # configure service
 add a .notify.yml
-'''yaml
+```yaml
 slack:
   orgs:
     - name: foo
@@ -21,7 +21,7 @@ datadog:
   orgs:
     - name: foo
       token: bar
-'''
+```
 
 
 # running api in wsgi container
