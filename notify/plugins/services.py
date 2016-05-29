@@ -89,12 +89,22 @@ class HipChat(object):
 
 
 class DataDog(object):
-    def __init__(self):
-        options = {
-            'api_key': 'api_key',
-            'app_key': 'app_key'
-        }
-        initialize(**options)
+    def __init__(self, org_name):
+        self.org_name = org_name
+        self.conf = {}
+        self.datadog_conf = {}
+        self.options = {}
 
-    def send_event(self, title, text, tags=list):
-        return api.Event.create(title=title, text=text, tags=tags)
+    def init_client(self):
+        self.conf = config_parser.ConfLoader().get_config('datadog')
+        if self.conf:
+            self.datadog_conf = config_parser.Config(self.conf).get_service('datadog', self.org_name)
+
+        if self.datadog_conf:
+            self.options = {
+                'api_key': self.datadog_conf[0].get('api_key')
+            }
+            initialize(**self.options)
+
+    def send_event(self, title, text, tags=list, alert_type='info'):
+        return api.Event.create(title=title, text=text, tags=tags, alert_type=alert_type)
