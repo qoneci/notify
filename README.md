@@ -16,7 +16,6 @@ datadog:
   orgs:
     - name: foo
       api_key: foo
-      app_key: foo
 ```
 
 
@@ -35,9 +34,11 @@ body: application/json
 ```bash 
 {
     "org_name": string,
-    "channel_name": string,
     "message": string,
     "services": list,
+    "channel_name": string,
+    "tags": list,               # optional needed for datadog
+    "alert_type": string        # optional needed for datadog
 }
 ```
 
