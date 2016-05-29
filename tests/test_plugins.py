@@ -1,5 +1,7 @@
+import json
 import unittest
 from notify.plugins.services import Slack
+from notify.plugins.services import DataDog
 
 
 class TestSlack(unittest.TestCase):
@@ -43,3 +45,31 @@ class TestSlack(unittest.TestCase):
             'foo bar'
         )
         self.assertTrue(result.get('ok'))
+
+
+class TestDataDog(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.dd = DataDog('qoneci')
+        cls.dd.init_client()
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_send_event(self):
+        tags = ['testing:send_event']
+        result = self.dd.send_event(
+            'title: foo',
+            'text: foo bar',
+            tags=tags,
+            alert_type='error'
+            )
+        print(json.dumps(result, indent=2))
+        self.assertEqual(result.get('status'), 'ok')
