@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import falcon
 from notify.core.log import logger
+from notify.plugins import services
 
 
 class GetHealth:

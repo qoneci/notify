@@ -23,8 +23,8 @@ class ConfLoader(object):
     def __init__(self):
         self.log = logger()
 
-    def _validate(self, yml):
-        schema = {
+    def get_schema(self, service):
+        schema1 = {
             'orgs': {
                 'type': 'list', 'schema': {
                     'type': 'dict', 'schema': {
@@ -34,26 +34,50 @@ class ConfLoader(object):
                 }
             }
         }
-        return cerberus.Validator(schema).validate(yml)
+
+        schema2 = {
+            'orgs': {
+                'type': 'list', 'schema': {
+                    'type': 'dict', 'schema': {
+                        'name': {'type': 'string'},
+                        'api_key': {'type': 'string'},
+                        'app_key': {'type': 'string'},
+                    }
+                }
+            }
+        }
+        if service in ['slack', 'hipchat']:
+            return schema1
+        elif service in ['datadog']:
+            return schema2
+        else:
+            return {}
+
+    def _validate(self, yml, service):
+        schema = self.get_schema(service)
+        if schema:
+            return cerberus.Validator(schema).validate(yml)
+        else:
+            return False
 
     def _validate_slack(self, yml):
         slack_conf = yml.get('slack')
         if slack_conf:
-            return self._validate(slack_conf)
+            return self._validate(slack_conf, 'slack')
         else:
             return False
 
     def _validate_hipchat(self, yml):
         hipchat_conf = yml.get('hipchat')
         if hipchat_conf:
-            return self._validate(hipchat_conf)
+            return self._validate(hipchat_conf, 'hipchat')
         else:
             return False
 
     def _validate_datadog(self, yml):
         datadog_conf = yml.get('datadog')
         if datadog_conf:
-            return self._validate(datadog_conf)
+            return self._validate(datadog_conf, 'datadog')
         else:
             return False
 

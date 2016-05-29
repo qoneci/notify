@@ -64,7 +64,7 @@ class TestConfLoader(unittest.TestCase):
         self.assertTrue(check)
 
     def test_validate_datadog(self):
-        yml = {'datadog': {'orgs': [{'name': '', 'token': ''}]}}
+        yml = {'datadog': {'orgs': [{'name': '', 'api_key': '', 'app_key': ''}]}}
         check = self.loader._validate_datadog(yml)
         self.assertTrue(check)
 
@@ -85,5 +85,6 @@ class TestConfLoader(unittest.TestCase):
 
     def test_datadog_config(self):
         conf = self.loader.get_config('datadog', file_path=self.file_path)
-        self.assertIn('token', conf['datadog']['orgs'][0].keys())
+        self.assertIn('api_key', conf['datadog']['orgs'][0].keys())
+        self.assertIn('app_key', conf['datadog']['orgs'][0].keys())
         self.assertIn('name', conf['datadog']['orgs'][0].keys())

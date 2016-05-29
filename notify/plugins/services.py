@@ -1,3 +1,4 @@
+from datadog import initialize, api
 from slackclient import SlackClient
 from requests.exceptions import ConnectionError
 
@@ -89,4 +90,11 @@ class HipChat(object):
 
 class DataDog(object):
     def __init__(self):
-        pass
+        options = {
+            'api_key': 'api_key',
+            'app_key': 'app_key'
+        }
+        initialize(**options)
+
+    def send_event(self, title, text, tags=list):
+        return api.Event.create(title=title, text=text, tags=tags)
