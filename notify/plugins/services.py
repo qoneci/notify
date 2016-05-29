@@ -1,5 +1,15 @@
 from slackclient import SlackClient
+from requests.exceptions import ConnectionError
+
 from notify.core import config_parser
+
+
+class SlackClientInitError(Exception):
+    pass
+
+
+class SlackClientConnectionError(Exception):
+    pass
 
 
 class Slack(object):
@@ -26,8 +36,19 @@ class Slack(object):
         if self.slack_conf:
             self.slack_client = SlackClient(self.slack_conf[0].get('token'))
 
+        api_test = self._api_test()
+        auth_test = self._auth_test()
+
+        if api_test.get('ok') and auth_test.get('ok'):
+            return True
+        else:
+            raise(SlackClientInitError)
+
     def _call(self, command):
-        return self.slack_client.api_call(command)
+        try:
+            return self.slack_client.api_call(command)
+        except ConnectionError:
+            raise(SlackClientConnectionError)
 
     def _auth_test(self):
         return self._call('auth.test')
@@ -55,8 +76,8 @@ class Slack(object):
             "chat.postMessage",
             channel=channel_id,
             text=message,
-            username='notify bot',
-            icon_url='https://avatars1.githubusercontent.com/u/19374687?v=3&s=48'
+            username='notify',
+            icon_url='https://avatars1.githubusercontent.com/u/19374687?v=3&s=200'
         )
         return sent
 
