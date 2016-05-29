@@ -1,7 +1,7 @@
 ### Notify minimal notifyer
-Smal service to send notifications to multiple services like Slack Hipchat DataDog
+Smal service to send notifications to multiple services like Slack DataDog
 
-currently supported services is Slack, HipChat, DataDog
+currently supported services is Slack, DataDog
 
 
 # configure service
@@ -12,15 +12,11 @@ slack:
     - name: foo
       token: xoxp-foobar
 
-hipchat:
-  orgs:
-    - name: foo
-      token: bar
-
 datadog:
   orgs:
     - name: foo
-      token: bar
+      api_key: foo
+      app_key: foo
 ```
 
 
