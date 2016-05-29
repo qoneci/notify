@@ -31,14 +31,10 @@ $ gunicorn notify.app:api
 
 
 # API
-GET health
-`/health`
-respose `{"status": "OK"}`
+GET health `/health` response 200 body: `{"status": "OK"}`
 
 
-POST message
-`/api/notify`
-
+POST message `/api/notify`
 body: application/json
 ```bash 
 {
