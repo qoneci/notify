@@ -1,4 +1,6 @@
 import json
+import requests
+import unittest
 import falcon
 import falcon.testing as testing
 
@@ -28,6 +30,7 @@ class TestAPI(testing.TestBase):
         json_body = json.loads(body)
         self.assertEqual(json_body, {'status': 'OK'})
 
+    '''
     def test_post_slack_event(self):
         body = json.dumps({
             'org_name': 'qoneci',
@@ -63,6 +66,7 @@ class TestAPI(testing.TestBase):
             body=body
         )
         self.assertEqual(self.srmock.status, falcon.HTTP_201)
+    '''
 
     def test_post_event_invalid_json_body(self):
         body = str({'alert_type': 'info', 'tags': ['testing:test']})
@@ -75,3 +79,34 @@ class TestAPI(testing.TestBase):
             body=body
         )
         self.assertEqual(self.srmock.status, falcon.HTTP_753)
+
+
+class TestAPIIntergartionTesting(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_post_multi_event(self):
+        body = json.dumps({
+            'org_name': 'qoneci',
+            'message': 'foo bar',
+            'services': ['slack', 'datadog'],
+            'channel_name': 'test',
+            'alert_type': 'info',
+            'tags': ['testing:test'],
+        })
+        headers = {'content-type': 'application/json'}
+        resp = requests.post('http://localhost:8000/api/notify', headers=headers, data=body)
+        print(resp.text)
+        self.assertEqual(resp.status_code, 201)

@@ -28,12 +28,14 @@ class JSONTranslator(object):
             return
 
         body = req.stream.read()
+        print('JSONTranslator: body: {}'.format(body))
         if not body:
             raise falcon.HTTPBadRequest('Empty request body',
                                         'A valid JSON document is required.')
 
         try:
             req.context['doc'] = json.loads(body.decode('utf-8'))
+            print('JSONTranslator: context: {}'.format(req.context))
 
         except (ValueError, UnicodeDecodeError):
             raise falcon.HTTPError(falcon.HTTP_753,
