@@ -1,7 +1,8 @@
 ### Notify minimal notifyer
-Smal service to send notifications to multiple services like Slack DataDog
-
+Smal service to send notifications to multiple services like Slack DataDog.
 currently supported services is Slack, DataDog
+
+written to work in python3.5
 
 
 # configure service
@@ -43,6 +44,14 @@ body: application/json
 ```
 
 response: 201
+
+# install
+```bash
+$ virtualenv venv
+$ source venv/bin/activate
+pip3 install -r requirements.txt
+
+```
 
 
 # example use 
