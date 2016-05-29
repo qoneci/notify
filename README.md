@@ -46,7 +46,10 @@ response: 201
 
 
 # example use 
-first start the server and configure the intergration you like to use
+first start the server and configure the intergration you like to use. The follwing example will
+send two events one to slack and one to datadog. for slack it will send it to the `qoneci` org
+with the messame `foo bar` in channel `test`. For datadog it will send a event with title `info`
+message `foo bar` and alert level `info` and tags `testing:test`
 ```bash
 $ gunicorn notify.app:api
 ```
@@ -57,8 +60,10 @@ import requests
 body = {
     'org_name': 'qoneci',
     'message': 'foo bar',
-    'services': ['slack'],
+    'services': ['slack', 'datadog'],
     'channel_name': 'test',
+    'alert_type': 'info',
+    'tags': ['testing:test'],
 }
 url = 'http://127.0.0.1:8000/api/notify'
 headers = {'content-type': 'application/json'}
