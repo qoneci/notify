@@ -43,3 +43,27 @@ body: application/json
 ```
 
 response: 201
+
+
+# example use 
+first start the server and configure the intergration you like to use
+```bash
+$ gunicorn notify.app:api
+```
+
+```python
+import json
+import requests
+body = {
+    'org_name': 'qoneci',
+    'message': 'foo bar',
+    'services': ['slack'],
+    'channel_name': 'test',
+}
+url = 'http://127.0.0.1:8000/api/notify'
+headers = {'content-type': 'application/json'}
+
+In [9]: requests.post(url, headers=headers, data=json.dumps(body))
+Out[9]: <Response [201]>
+
+```
