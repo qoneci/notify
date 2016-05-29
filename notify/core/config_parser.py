@@ -29,27 +29,15 @@ class ConfLoader(object):
                 'type': 'list', 'schema': {
                     'type': 'dict', 'schema': {
                         'name': {'type': 'string'},
-                        'token': {'type': 'string'}
+                        'token': {'type': 'string'},
+                        'api_key': {'type': 'string'},
                     }
                 }
             }
         }
 
-        schema2 = {
-            'orgs': {
-                'type': 'list', 'schema': {
-                    'type': 'dict', 'schema': {
-                        'name': {'type': 'string'},
-                        'api_key': {'type': 'string'},
-                        'app_key': {'type': 'string'},
-                    }
-                }
-            }
-        }
-        if service in ['slack', 'hipchat']:
+        if service in ['slack', 'hipchat', 'datadog']:
             return schema1
-        elif service in ['datadog']:
-            return schema2
         else:
             return {}
 
