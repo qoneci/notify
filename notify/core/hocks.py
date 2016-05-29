@@ -10,7 +10,6 @@ def json_translator(req, resp, resource, params):
     # See also: PEP 3333
     if req.content_length in (None, 0):
         # Nothing to do
-        print('JSONTranslato: req.content_length in (None, 0)')
         return
 
     body = req.stream.read()
@@ -20,7 +19,6 @@ def json_translator(req, resp, resource, params):
 
     try:
         req.context['doc'] = json.loads(body.decode('utf-8'))
-        print('JSONTranslator: context: {}'.format(req.context))
 
     except (ValueError, UnicodeDecodeError):
         raise falcon.HTTPError(falcon.HTTP_753,
