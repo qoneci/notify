@@ -26,7 +26,7 @@ $ gunicorn notify.app:api
 ```
 
 
-### API
+### api
 GET `/health` response 200 body: `{"status": "OK"}`
 
 
