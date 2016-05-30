@@ -5,7 +5,7 @@ currently supported services is Slack, DataDog
 written to work in python3.5
 
 
-# configure service
+### configure service
 add a .notify.yml
 ```yaml
 slack:
@@ -20,17 +20,17 @@ datadog:
 ```
 
 
-# running api in wsgi container
+### running api in wsgi container
 ```bash
 $ gunicorn notify.app:api
 ```
 
 
-# API
-GET health `/health` response 200 body: `{"status": "OK"}`
+### API
+GET `/health` response 200 body: `{"status": "OK"}`
 
 
-POST message `/api/notify`
+POST `/api/notify`
 body: application/json
 ```bash 
 {
@@ -45,7 +45,7 @@ body: application/json
 
 response: 201
 
-# install
+### install
 ```bash
 $ virtualenv venv
 $ source venv/bin/activate
@@ -54,7 +54,7 @@ pip3 install -r requirements.txt
 ```
 
 
-# example use 
+### example use 
 first start the server and configure the intergration you like to use. The follwing example will
 send two events one to slack and one to datadog. for slack it will send it to the `qoneci` org
 with the messame `foo bar` in channel `test`. For datadog it will send a event with title `info`
